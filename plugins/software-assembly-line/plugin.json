@@ -2,11 +2,20 @@
   "name": "software-assembly-line",
   "version": "0.1.0",
   "description": "AI agents for automated software development: planning, plan review, code review, and compounding",
-  "author": "theinfinityguides",
-  "license": "MIT",
+  "author": {
+    "name": "The Infinity Guides",
+    "url": "https://github.com/theinfinityguides"
+  },
+  "homepage": "https://github.com/theinfinityguides/software-assembly-line",
   "repository": "https://github.com/theinfinityguides/software-assembly-line",
-  "keywords": ["effect-ts", "bun", "typescript", "code-review", "planning", "agents"],
-  "agents": "./agents",
-  "commands": "./commands",
-  "skills": "./skills"
+  "license": "MIT",
+  "keywords": [
+    "effect-ts",
+    "bun",
+    "typescript",
+    "code-review",
+    "planning",
+    "agents",
+    "compound-engineering"
+  ]
 }
