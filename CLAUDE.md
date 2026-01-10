@@ -1,4 +1,4 @@
-# InfinityGuides Software Assembly Line
+# Software Assembly Line
 
 A Claude Code plugin providing AI agents for automated software development pipelines.
 
@@ -154,7 +154,7 @@ docs/solutions/
 
 ```typescript
 Task(
-  subagent_type="infinityguides-sal:code-review:effect-ts-patterns-reviewer",
+  subagent_type="software-assembly-line:code-review:effect-ts-patterns-reviewer",
   prompt="Review the changes in packages/api/src/services/"
 )
 ```
@@ -163,9 +163,9 @@ Task(
 
 ```typescript
 // Run all code reviewers in parallel
-Task(subagent_type="infinityguides-sal:code-review:effect-ts-patterns-reviewer", ...)
-Task(subagent_type="infinityguides-sal:code-review:type-strictness-reviewer", ...)
-Task(subagent_type="infinityguides-sal:code-review:effect-atom-reviewer", ...)
+Task(subagent_type="software-assembly-line:code-review:effect-ts-patterns-reviewer", ...)
+Task(subagent_type="software-assembly-line:code-review:type-strictness-reviewer", ...)
+Task(subagent_type="software-assembly-line:code-review:effect-atom-reviewer", ...)
 // ... all in same message
 ```
 

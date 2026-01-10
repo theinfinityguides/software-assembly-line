@@ -1,4 +1,4 @@
-# InfinityGuides Software Assembly Line
+# Software Assembly Line
 
 A Claude Code plugin for automated software development using AI agents. Implements a structured pipeline: **Plan → Review Plan → Work → Review Code → Compound → Repeat**.
 
@@ -23,8 +23,8 @@ While the patterns are generalizable, agents are optimized for:
 ## Installation
 
 ```bash
-/plugin marketplace add https://github.com/InfinityGuides/infinityguides-software-assembly-line
-/plugin install infinityguides-sal
+/plugin marketplace add InfinityGuides/software-assembly-line
+/plugin install software-assembly-line
 ```
 
 ## Agents
@@ -79,7 +79,7 @@ While the patterns are generalizable, agents are optimized for:
 Agents are invoked via the Task tool:
 
 ```
-Task(subagent_type="infinityguides-sal:code-review:effect-ts-patterns-reviewer")
+Task(subagent_type="software-assembly-line:code-review:effect-ts-patterns-reviewer")
 ```
 
 Or through workflows (coming soon):
