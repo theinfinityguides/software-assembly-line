@@ -46,6 +46,8 @@ While the patterns are generalizable, agents are optimized for:
 | `atom-state-planner` | Plan effect-atom state structure |
 
 ### Code Review Agents
+
+**Stack-Specific:**
 | Agent | Purpose |
 |-------|---------|
 | `effect-ts-patterns-reviewer` | Enforce Effect-TS conventions |
@@ -54,6 +56,16 @@ While the patterns are generalizable, agents are optimized for:
 | `bun-runtime-reviewer` | Ensure Bun usage, not tsx/node |
 | `import-conventions-reviewer` | .ts extensions, proper imports |
 | `test-coverage-reviewer` | 100% coverage, proper patterns |
+
+**Universal:**
+| Agent | Purpose |
+|-------|---------|
+| `security-sentinel` | Security audits, OWASP compliance, vulnerability detection |
+| `performance-oracle` | Bottleneck detection, N+1 queries, algorithmic complexity |
+| `architecture-strategist` | Architectural compliance, design patterns |
+| `pattern-recognition-specialist` | Anti-patterns, code duplication, naming conventions |
+| `code-simplicity-reviewer` | YAGNI enforcement, complexity reduction |
+| `data-integrity-guardian` | Migration safety, transactions, referential integrity |
 
 ### Compound Agents
 | Agent | Purpose |
