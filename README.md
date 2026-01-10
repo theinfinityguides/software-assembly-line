@@ -6,6 +6,14 @@ A Claude Code plugin for automated software development using AI agents. Impleme
 
 > Each unit of engineering work should make subsequent units easier—not harder.
 
+This plugin implements the **Compound Engineering** approach pioneered by [Every](https://every.to) and their [compound-engineering plugin](https://github.com/EveryInc/compound-engineering-plugin). The core insight: AI agents become more effective over time when learnings from each task feed back into the system.
+
+**Key principles:**
+- **80% planning/review, 20% execution** - Catch issues before they become code
+- **Knowledge compounds** - Document patterns and solutions for future work
+- **Multi-agent review** - Specialized agents catch what generalists miss
+- **Continuous improvement** - Each cycle makes the next one better
+
 This plugin provides specialized agents for:
 - **Planning**: Transform ideas into structured, implementable plans
 - **Plan Review**: Catch issues in plans before coding starts
@@ -336,6 +344,13 @@ Agents can also be invoked directly via the Task tool:
 ```
 Task(subagent_type="software-assembly-line:code-review:effect-ts-patterns-reviewer")
 ```
+
+## Acknowledgments
+
+This plugin is inspired by and builds upon the work of:
+
+- **[Every](https://every.to)** and the [compound-engineering plugin](https://github.com/EveryInc/compound-engineering-plugin) - The compound engineering philosophy, multi-agent review patterns, and the insight that AI effectiveness compounds when learnings feed back into the system.
+- **[Geoffrey Huntley](https://ghuntley.com)** - The "Ralph Wiggum Loop" technique for persistent agent execution using Claude Code hooks.
 
 ## License
 
