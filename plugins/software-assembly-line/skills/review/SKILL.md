@@ -1,3 +1,8 @@
+---
+name: review
+description: Run multi-agent code review on the current branch or PR. Runs stack-specific and universal review agents in parallel, aggregates findings, and optionally auto-fixes issues.
+---
+
 # Review Skill
 
 Run multi-agent code review on the current branch or PR.

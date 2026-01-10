@@ -1,3 +1,8 @@
+---
+name: compound
+description: Review the current session, capture learnings, and update project documentation. Extracts Effect patterns, type error solutions, and integration patterns for future work.
+---
+
 # Compound Skill
 
 Review the current session, capture learnings, and update project documentation.

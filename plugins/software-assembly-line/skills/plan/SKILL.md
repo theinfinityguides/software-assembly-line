@@ -1,3 +1,8 @@
+---
+name: plan
+description: Transform a PRD into Linear issues with automatic layer-based dependencies. Validates PRD structure, extracts entities and flows, generates stories, and sets up blocks/blocked-by relationships.
+---
+
 # Plan Skill
 
 Transform a PRD into Linear issues with automatic layer-based dependencies.

@@ -1,3 +1,8 @@
+---
+name: scaffold
+description: Generate a complete CRUD scaffold for an entity across all layers. Creates database migration, schema, queries, RPC endpoints, and admin UI pages with full test coverage.
+---
+
 # Scaffold Skill
 
 Generate a complete CRUD scaffold for an entity across all layers: database, API, and admin UI.

@@ -1,3 +1,8 @@
+---
+name: work
+description: Pick the next unblocked story from Linear and implement it using the Ralph Wiggum loop. Creates branch, implements until acceptance criteria met, runs tests, and creates PR.
+---
+
 # Work Skill
 
 Pick the next unblocked story from Linear and implement it using the Ralph Wiggum loop.

@@ -1,3 +1,8 @@
+---
+name: workflow
+description: Generate a complete Effect Cluster workflow with activities, schemas, and tests. Supports standard, durable (checkpointed), and saga (compensating) workflow patterns.
+---
+
 # Workflow Skill
 
 Generate a complete Effect Cluster workflow with activities, schemas, and tests.
