@@ -1,0 +1,20 @@
+{
+  "name": "infinityguides-sal",
+  "metadata": {
+    "description": "Automated software assembly line with AI agents for planning, review, and learning",
+    "version": "0.1.0"
+  },
+  "owner": {
+    "name": "InfinityGuides"
+  },
+  "plugins": [
+    {
+      "name": "infinityguides-sal",
+      "source": "./plugins/infinityguides-sal",
+      "description": "AI agents for Effect-TS codebases: planning, plan review, code review, and compounding",
+      "version": "0.1.0",
+      "keywords": ["effect-ts", "code-review", "planning", "agents", "automation"],
+      "category": "development-workflow"
+    }
+  ]
+}

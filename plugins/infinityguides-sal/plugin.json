@@ -1,0 +1,12 @@
+{
+  "name": "infinityguides-sal",
+  "version": "0.1.0",
+  "description": "AI agents for automated software development: planning, plan review, code review, and compounding",
+  "author": "InfinityGuides",
+  "license": "MIT",
+  "repository": "https://github.com/InfinityGuides/infinityguides-software-assembly-line",
+  "keywords": ["effect-ts", "bun", "typescript", "code-review", "planning", "agents"],
+  "agents": "./agents",
+  "commands": "./commands",
+  "skills": "./skills"
+}
