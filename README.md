@@ -254,6 +254,41 @@ docs/solutions/
 └── integrations/         # Cross-package patterns
 ```
 
+### `/sal:scaffold` - Generate CRUD Scaffold
+
+Generate complete CRUD across all layers: db schema, model, API, admin UI.
+
+```bash
+/sal:scaffold Subscription
+/sal:scaffold Subscription --fields "planId:uuid:required,status:enum(active,cancelled)"
+/sal:scaffold Subscription --belongs-to User --belongs-to Plan
+```
+
+**Generates:**
+- Migration, schema, relations, queries (db)
+- RPC endpoints with schemas (api)
+- Admin CRUD pages with atoms (web)
+- Full test coverage
+
+### `/sal:workflow` - Generate Cluster Workflow
+
+Generate Effect Cluster workflow with activities and schemas.
+
+```bash
+/sal:workflow OrderProcessing
+/sal:workflow OrderProcessing --activities "validate,charge,ship"
+/sal:workflow OrderProcessing --durable   # Survives restarts
+/sal:workflow OrderProcessing --saga      # With compensation
+```
+
+**Generates:**
+- Workflow definition
+- Activity implementations
+- Input/output schemas
+- Worker registration
+- Client helpers
+- Tests
+
 ## Full Pipeline
 
 ```
