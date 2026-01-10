@@ -190,11 +190,109 @@ Lower priority layers automatically block higher priority layers for the same en
 
 ## Skills
 
-| Skill | Purpose |
-|-------|---------|
-| `/sal:plan` | Transform PRD into Linear issues with dependencies |
-| `/sal:review` | Multi-agent code review (coming soon) |
-| `/sal:compound` | Capture learnings from session (coming soon) |
+### `/sal:plan` - PRD to Linear
+
+Transform a PRD into Linear issues with automatic dependencies.
+
+```bash
+/sal:plan plans/feature.md --project-id PROJ-123
+/sal:plan plans/feature.md --dry-run
+```
+
+### `/sal:work` - Implement Story
+
+Pick the next unblocked story and implement it (Ralph Wiggum loop).
+
+```bash
+/sal:work --project-id PROJ-123          # Pick next unblocked story
+/sal:work --story-id STORY-456           # Work on specific story
+/sal:work --continue                      # Resume after interruption
+```
+
+**What it does:**
+1. Selects next unblocked story (by priority, then layer order)
+2. Creates feature branch
+3. Implements until all acceptance criteria met
+4. Runs tests, type checks, linting
+5. Creates draft PR
+6. Updates Linear story status
+
+### `/sal:review` - Code Review
+
+Run multi-agent code review on current branch or PR.
+
+```bash
+/sal:review                              # Review current branch
+/sal:review --pr 123                     # Review specific PR
+/sal:review --fix                        # Auto-fix issues found
+/sal:review --agents all                 # Run all reviewers
+```
+
+**Agents run in parallel:**
+- Stack-specific: effect-ts-patterns, type-strictness, effect-atom, bun-runtime
+- Universal: security-sentinel, performance-oracle, data-integrity
+
+### `/sal:compound` - Capture Learnings
+
+Review session and capture learnings for future work.
+
+```bash
+/sal:compound --story-id STORY-456       # Compound from specific story
+/sal:compound --session                  # Review current session
+```
+
+**What it captures:**
+- Effect patterns that worked
+- Type error solutions
+- Cross-package integration patterns
+
+**Output locations:**
+```
+docs/solutions/
+├── effect-patterns/      # Reusable Effect patterns
+├── type-errors/          # Type error solutions
+└── integrations/         # Cross-package patterns
+```
+
+## Full Pipeline
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    Software Assembly Line                    │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  /sal:plan                                                  │
+│  PRD → Validate → Extract → Generate Stories → Link Deps   │
+│                            ↓                                │
+│                     Linear Issues                           │
+│                            ↓                                │
+│  /sal:work                                                  │
+│  Pick Story → Branch → Implement → Test → PR               │
+│                            ↓                                │
+│  /sal:review                                                │
+│  Parallel Agents → Find Issues → Auto-fix → Verify         │
+│                            ↓                                │
+│  Human Review → Merge                                       │
+│                            ↓                                │
+│  /sal:compound                                              │
+│  Extract Learnings → Update Docs → Improve Future Work     │
+│                            ↓                                │
+│                        Repeat                               │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+## Orchestrator Integration
+
+Skills output structured markers for automated parsing:
+
+```
+[SAL:WORK:START] {"storyId": "STORY-456", "branch": "feat/..."}
+[SAL:WORK:PROGRESS] {"criterion": 1, "total": 5, "status": "complete"}
+[SAL:WORK:COMPLETE] {"storyId": "STORY-456", "prUrl": "https://..."}
+[SAL:REVIEW:COMPLETE] {"critical": 0, "warnings": 1, "fixed": 3}
+[SAL:COMPOUND:COMPLETE] {"patterns": 1, "errors": 1}
+```
 
 ## Usage: Agents Directly
 
