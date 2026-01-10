@@ -2,9 +2,9 @@
   "name": "software-assembly-line",
   "version": "0.1.0",
   "description": "Automated software assembly line with AI agents for planning, review, and learning",
-  "author": "InfinityGuides",
+  "author": "theinfinityguides",
   "license": "MIT",
-  "repository": "https://github.com/InfinityGuides/software-assembly-line",
+  "repository": "https://github.com/theinfinityguides/software-assembly-line",
   "plugins": [
     {
       "name": "software-assembly-line",

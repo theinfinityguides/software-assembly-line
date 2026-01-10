@@ -23,7 +23,7 @@ While the patterns are generalizable, agents are optimized for:
 ## Installation
 
 ```bash
-/plugin marketplace add InfinityGuides/software-assembly-line
+/plugin marketplace add theinfinityguides/software-assembly-line
 /plugin install software-assembly-line
 ```
 
