@@ -24,6 +24,18 @@ Agents are optimized for:
 
 ### Planning Agents (`agents/planning/`)
 
+**PRD-to-Linear Pipeline:**
+
+| Agent | Purpose |
+|-------|---------|
+| `prd-structure-validator` | Validate PRD has required sections |
+| `entity-extractor` | Parse PRD to extract entities and relationships |
+| `flow-extractor` | Parse PRD to extract user flows and API endpoints |
+| `story-generator` | Generate Linear stories from entities and flows |
+| `dependency-linker` | Auto-set blocks/blocked-by relations in Linear |
+
+**Architecture Design:**
+
 | Agent | Purpose |
 |-------|---------|
 | `effect-ts-architect` | Design Effect service layers and composition |
@@ -104,6 +116,36 @@ bun, bun run, bun install
 ```
 
 ## Workflow Integration
+
+### PRD-to-Linear Pipeline
+
+Transform a PRD document into Linear issues with automatic dependencies:
+
+```
+PRD Document
+    ↓
+[prd-structure-validator] ─── Validates required sections
+    ↓
+    ├── [entity-extractor] ─── Extracts entities (parallel)
+    │
+    └── [flow-extractor] ───── Extracts flows (parallel)
+            ↓
+    [story-generator] ─────── Generates layer-tagged stories
+            ↓
+    [dependency-linker] ────── Sets blocks/blocked-by in Linear
+            ↓
+    Linear Issues Ready for Work
+```
+
+**Layer Priority (lower blocks higher):**
+1. `db:lookup` - Enum tables, reference data
+2. `db:schema` - Table migrations
+3. `db:model` - Drizzle schemas, queries
+4. `api:integration` - External services
+5. `api` - RPC endpoints
+6. `web` - Web components
+7. `app` - Mobile components
+8. `cluster` - Background workers
 
 ### Plan → Review Plan → Work → Compound
 

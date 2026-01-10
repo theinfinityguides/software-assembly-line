@@ -30,6 +30,17 @@ While the patterns are generalizable, agents are optimized for:
 ## Agents
 
 ### Planning Agents
+
+**PRD Pipeline (run in sequence):**
+| Agent | Purpose |
+|-------|---------|
+| `prd-structure-validator` | Validate PRD has required sections before processing |
+| `entity-extractor` | Parse PRD to extract entities and relationships |
+| `flow-extractor` | Parse PRD to extract user flows and API endpoints |
+| `story-generator` | Generate Linear stories from entities and flows |
+| `dependency-linker` | Auto-set blocks/blocked-by relations in Linear |
+
+**Architecture Design:**
 | Agent | Purpose |
 |-------|---------|
 | `effect-ts-architect` | Design Effect service layers and composition |
@@ -86,6 +97,43 @@ Or through workflows (coming soon):
 - `/sal:plan` - Create implementation plan
 - `/sal:review` - Multi-agent code review
 - `/sal:compound` - Capture learnings
+
+## PRD-to-Linear Pipeline
+
+The planning agents work together to transform a PRD into Linear issues with proper dependencies:
+
+```
+PRD Document
+    ↓
+[prd-structure-validator] ─── Validates required sections
+    ↓
+    ├── [entity-extractor] ─── Extracts entities, fields, relationships
+    │
+    └── [flow-extractor] ──── Extracts user flows, endpoints, components
+            ↓
+    [story-generator] ──────── Generates layer-tagged stories
+            ↓
+    [dependency-linker] ────── Sets blocks/blocked-by in Linear
+            ↓
+    Linear Issues Ready
+```
+
+### Layer Tags
+
+Stories are tagged by layer for automatic dependency ordering:
+
+| Priority | Tag | Description |
+|----------|-----|-------------|
+| 1 | `db:lookup` | Enum tables, reference data |
+| 2 | `db:schema` | Table migrations |
+| 3 | `db:model` | Drizzle schemas, queries |
+| 4 | `api:integration` | External service integrations |
+| 5 | `api` | RPC endpoints |
+| 6 | `web` | Web components |
+| 7 | `app` | Mobile app components |
+| 8 | `cluster` | Background workers |
+
+Lower priority layers automatically block higher priority layers for the same entity.
 
 ## License
 
