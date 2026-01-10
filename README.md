@@ -85,40 +85,93 @@ While the patterns are generalizable, agents are optimized for:
 | `type-error-solution-documenter` | Document type error solutions |
 | `layer-integration-documenter` | Cross-package integration patterns |
 
-## Usage
+## Quick Start: Planning
 
-Agents are invoked via the Task tool:
+### 1. Write a PRD
 
+Create a PRD document with these required sections:
+
+```markdown
+# Feature Name
+
+## Overview
+Brief description of the feature.
+
+## Problem Statement
+What problem does this solve?
+
+## Entities
+
+### New Entities
+- **Subscription**: User subscription to a plan
+  - id: uuid (primary key)
+  - userId: uuid (foreign key → users.id)
+  - planId: uuid (foreign key → plans.id)
+  - status: enum (active, cancelled, expired)
+
+### Modified Entities
+- **User**: Add subscription relationship
+  - subscriptionId: uuid (nullable)
+
+## User Flows
+
+### Subscribe to Plan
+1. User clicks "Subscribe" on pricing page
+2. System displays payment form
+3. User enters payment details
+4. System creates subscription
+
+**Outcomes**: Subscription created, payment processed
+
+## Out of Scope
+- Annual billing (Phase 2)
+- Team subscriptions
 ```
-Task(subagent_type="software-assembly-line:code-review:effect-ts-patterns-reviewer")
+
+### 2. Run the Planning Skill
+
+```bash
+# Validate and create Linear issues
+/sal:plan plans/feat-subscriptions.md --project-id PROJ-123
+
+# Dry run - validate and preview without creating issues
+/sal:plan plans/feat-subscriptions.md --dry-run
 ```
 
-Or through workflows (coming soon):
-- `/sal:plan` - Create implementation plan
-- `/sal:review` - Multi-agent code review
-- `/sal:compound` - Capture learnings
+### 3. What Happens
 
-## PRD-to-Linear Pipeline
-
-The planning agents work together to transform a PRD into Linear issues with proper dependencies:
+The skill runs 5 agents in sequence:
 
 ```
 PRD Document
     ↓
 [prd-structure-validator] ─── Validates required sections
     ↓
-    ├── [entity-extractor] ─── Extracts entities, fields, relationships
+    ├── [entity-extractor] ─── Extracts entities (parallel)
     │
-    └── [flow-extractor] ──── Extracts user flows, endpoints, components
+    └── [flow-extractor] ───── Extracts flows (parallel)
             ↓
     [story-generator] ──────── Generates layer-tagged stories
             ↓
     [dependency-linker] ────── Sets blocks/blocked-by in Linear
             ↓
-    Linear Issues Ready
+    Linear Issues with Dependencies
 ```
 
-### Layer Tags
+### 4. Output
+
+Stories are created with layer tags and automatic dependencies:
+
+```
+PROJ-101: [db:schema] Create plans table migration
+PROJ-102: [db:schema] Create subscriptions table migration (blocked by 101)
+PROJ-103: [db:model] Add Plan model and queries (blocked by 101)
+PROJ-104: [db:model] Add Subscription model (blocked by 102, 103)
+PROJ-105: [api] Add subscription.create endpoint (blocked by 104)
+PROJ-106: [web] Create PaymentForm component (blocked by 105)
+```
+
+## Layer Tags
 
 Stories are tagged by layer for automatic dependency ordering:
 
@@ -134,6 +187,22 @@ Stories are tagged by layer for automatic dependency ordering:
 | 8 | `cluster` | Background workers |
 
 Lower priority layers automatically block higher priority layers for the same entity.
+
+## Skills
+
+| Skill | Purpose |
+|-------|---------|
+| `/sal:plan` | Transform PRD into Linear issues with dependencies |
+| `/sal:review` | Multi-agent code review (coming soon) |
+| `/sal:compound` | Capture learnings from session (coming soon) |
+
+## Usage: Agents Directly
+
+Agents can also be invoked directly via the Task tool:
+
+```
+Task(subagent_type="software-assembly-line:code-review:effect-ts-patterns-reviewer")
+```
 
 ## License
 
