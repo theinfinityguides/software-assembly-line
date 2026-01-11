@@ -118,8 +118,9 @@ if [[ ! -f "$SESSION_FILE" ]]; then
   exit 0
 fi
 
-# Read the goal (format: "branch-name")
-branch=$(cat "$SESSION_FILE")
+# Parse session file (format: key=value lines)
+branch=$(grep '^branch=' "$SESSION_FILE" | cut -d= -f2-)
+worktree=$(grep '^worktree=' "$SESSION_FILE" | cut -d= -f2-)
 
 if [[ -z "$branch" ]]; then
   exit 0
@@ -129,7 +130,12 @@ fi
 if gh pr list --head "$branch" --json number --jq '.[0].number' 2>/dev/null | grep -q .; then
   # PR exists - goal complete, clean up session
   rm -f "$SESSION_FILE"
+  echo "" >&2
   echo "✅ PR created for $branch - work session complete" >&2
+  if [[ -n "$worktree" ]]; then
+    echo "   Worktree: $worktree" >&2
+    echo "   (Clean up with: git worktree remove \"$worktree\")" >&2
+  fi
   exit 0
 fi
 
@@ -137,6 +143,9 @@ fi
 echo "" >&2
 echo "⚠️  /work goal not complete" >&2
 echo "   Branch: $branch" >&2
+if [[ -n "$worktree" ]]; then
+  echo "   Worktree: $worktree" >&2
+fi
 echo "   Status: No PR created yet" >&2
 echo "" >&2
 echo "Continue working toward creating a PR." >&2

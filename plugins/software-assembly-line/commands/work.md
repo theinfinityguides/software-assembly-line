@@ -49,19 +49,43 @@ If `--project-id` provided:
 - Sort by priority, then by layer tag order
 - Select the first (highest priority, earliest layer)
 
-### Step 2: Create Branch & Session
+### Step 2: Create Worktree & Session
+
+**IMPORTANT**: All work must be done in a git worktree, not the main working directory.
 
 ```bash
-git checkout -b feat/STORY-456-create-subscriptions-table
+# Get repo info
+REPO_ROOT=$(git rev-parse --show-toplevel)
+REPO_NAME=$(basename "$REPO_ROOT")
+BRANCH="feat/STORY-456-create-subscriptions-table"
+BRANCH_SLUG=$(echo "$BRANCH" | sed 's/[^a-zA-Z0-9]/-/g')
+WORKTREE_PATH="${REPO_ROOT}/../${REPO_NAME}--${BRANCH_SLUG}"
 
-# Register work session (enables stop hook to track progress)
-mkdir -p .claude/session
-echo "feat/STORY-456-create-subscriptions-table" > .claude/session/work-goal
+# Create branch and worktree (as sibling to main repo)
+git worktree add -b "$BRANCH" "$WORKTREE_PATH"
+
+# Register work session BEFORE changing directory
+mkdir -p "$REPO_ROOT/.claude/session"
+cat > "$REPO_ROOT/.claude/session/work-goal" << EOF
+branch=$BRANCH
+worktree=$WORKTREE_PATH
+EOF
+
+# Change to worktree - ALL WORK HAPPENS HERE
+cd "$WORKTREE_PATH"
 ```
 
-**IMPORTANT**: Always create the session file. The stop hook uses this to:
-- Remind you to keep working if you stop without a PR
-- Clean up automatically once PR is created
+The worktree is created as a sibling directory:
+```
+~/dev/
+├── my-repo/                                    # Main (stays on main branch)
+└── my-repo--feat-STORY-456-create-subscrip...  # Worktree (your work here)
+```
+
+**Why worktrees?**
+- Main directory stays clean on main/master
+- Can work on multiple stories in parallel
+- Isolated changes prevent accidental commits to wrong branch
 
 ### Step 3: Understand Context
 
@@ -128,6 +152,9 @@ gh pr create --title "[STORY-456] Create subscriptions table migration" --body "
 
 ### Story
 STORY-456: [db:schema] Create subscriptions table migration
+
+### Worktree
+../my-repo--feat-STORY-456-create-subscriptions-table
 
 ### Branch
 feat/STORY-456-create-subscriptions-table
