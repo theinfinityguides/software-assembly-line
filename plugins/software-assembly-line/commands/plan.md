@@ -1,9 +1,10 @@
 ---
 name: plan
-description: Transform a PRD into Linear issues with automatic layer-based dependencies. Validates PRD structure, extracts entities and flows, generates stories, and sets up blocks/blocked-by relationships.
+description: Transform a PRD into Linear issues with automatic layer-based dependencies
+argument-hint: "<prd-path> [--project-id <ID>] [--dry-run]"
 ---
 
-# Plan Skill
+# Plan Command
 
 Transform a PRD into Linear issues with automatic layer-based dependencies.
 
@@ -34,9 +35,9 @@ Transform a PRD into Linear issues with automatic layer-based dependencies.
 | `--project-id` | No | Linear project ID for issue creation |
 | `--dry-run` | No | Generate stories but don't create Linear issues |
 
-## What This Skill Does
+## What This Command Does
 
-This skill orchestrates the PRD-to-Linear pipeline by running planning agents in sequence:
+This command orchestrates the PRD-to-Linear pipeline by running planning agents in sequence:
 
 ### Step 1: Validate PRD Structure
 
@@ -124,7 +125,7 @@ Stories are ordered by layer (lower blocks higher):
 - app: 1
 
 ### Dependency Graph
-[Mermaid diagram or ASCII art]
+[ASCII diagram]
 
 ### Critical Path: 7 stories (12 points)
 
@@ -140,49 +141,14 @@ Run without --dry-run to create issues.
 ### Linear Issues Created: 15
 - PROJ-101: [db:schema] Create plans table migration
 - PROJ-102: [db:schema] Create subscriptions table migration
-- PROJ-103: [db:model] Add Plan model and queries
-- ...
+...
 
 ### Dependencies Linked: 23 relationships
 
 ### Next Steps
-1. Review issues in Linear: https://linear.app/team/project/PROJ-123
+1. Review issues in Linear
 2. Assign issues to team members
-3. Start work on unblocked issues (marked with no blockers)
-```
-
-## Error Handling
-
-### PRD Validation Failed
-```
-## PRD Validation: FAILED
-
-### Critical Issues (must fix):
-1. Missing "## Entities" section
-   - Cannot generate database stories without entity definitions
-   - Add section with new/modified entities
-
-2. Missing "## User Flows" section
-   - Cannot generate API/UI stories without flow definitions
-   - Add section with user journey steps
-
-### Action Required
-Fix the above issues and run /sal:plan again.
-```
-
-### Cycle Detected
-```
-## Dependency Error: Cycle Detected
-
-Circular dependency found:
-subscription.create → payment.process → subscription.verify → subscription.create
-
-### Resolution Required
-Review entity relationships in PRD. Common causes:
-- Bidirectional foreign keys (make one nullable)
-- Misclassified dependencies
-
-Edit PRD and run /sal:plan again.
+3. Start work on unblocked issues
 ```
 
 ## Tips
