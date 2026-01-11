@@ -30,13 +30,13 @@ if ! bun check; then
   exit 2
 fi
 
-# Run tests
-if ! bun run test; then
+# Run tests with 100% coverage
+if ! bun coverage; then
   echo "" >&2
-  echo "❌ Tests failed - fix issues before creating PR" >&2
+  echo "❌ Coverage failed - 100% test coverage required before creating PR" >&2
   exit 2
 fi
 
 echo "" >&2
-echo "✅ All pre-PR checks passed" >&2
+echo "✅ All pre-PR checks passed (lint, check, coverage)" >&2
 exit 0

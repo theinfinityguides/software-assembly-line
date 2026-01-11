@@ -77,25 +77,36 @@ Execute implementation in a persistent loop until all acceptance criteria are me
 ```
 1. Read acceptance criteria
 2. Implement next criterion
-3. Run tests
-4. If tests fail → fix and retry
-5. If tests pass → check next criterion
-6. Repeat until all criteria met
+3. Write tests for the criterion (100% coverage required)
+4. Run tests and coverage check
+5. If tests fail or coverage < 100% → fix and retry
+6. If tests pass with 100% coverage → check next criterion
+7. Repeat until all criteria met
 
 Exit conditions:
-✓ All acceptance criteria complete
+✓ All acceptance criteria complete with 100% test coverage
 ✗ Blocked by external dependency
 ✗ Needs human decision
 ✗ Max iterations reached
 ```
 
+**Coverage standard**: 100% test coverage is required. Run `bun coverage` from the repo root to check.
+
 ### Step 5: Verify Completion
 
-Before creating PR, verify:
+Before creating PR, run these commands from the repo root:
+
+```bash
+bun lint      # Linting passes
+bun check     # Types check
+bun coverage  # Tests pass with 100% coverage
+```
+
+Verify:
 - [ ] All acceptance criteria from story are met
-- [ ] Tests pass (`bun test`)
-- [ ] Types check (`bun check`)
-- [ ] Linting passes (`bun lint`)
+- [ ] `bun lint` passes
+- [ ] `bun check` passes
+- [ ] `bun coverage` passes with 100% coverage
 - [ ] No `@ts-expect-error` or `as any` introduced
 
 ### Step 6: Create Pull Request
