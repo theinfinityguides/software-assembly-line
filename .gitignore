@@ -10,3 +10,6 @@ Thumbs.db
 
 # Node (if any tooling added later)
 node_modules/
+
+# Claude session state (runtime only)
+.claude/session/

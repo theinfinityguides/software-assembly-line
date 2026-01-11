@@ -49,11 +49,19 @@ If `--project-id` provided:
 - Sort by priority, then by layer tag order
 - Select the first (highest priority, earliest layer)
 
-### Step 2: Create Branch
+### Step 2: Create Branch & Session
 
 ```bash
 git checkout -b feat/STORY-456-create-subscriptions-table
+
+# Register work session (enables stop hook to track progress)
+mkdir -p .claude/session
+echo "feat/STORY-456-create-subscriptions-table" > .claude/session/work-goal
 ```
+
+**IMPORTANT**: Always create the session file. The stop hook uses this to:
+- Remind you to keep working if you stop without a PR
+- Clean up automatically once PR is created
 
 ### Step 3: Understand Context
 
