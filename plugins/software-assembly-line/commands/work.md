@@ -115,15 +115,16 @@ WORKTREE_PATH="${REPO_ROOT}/../${REPO_NAME}--${BRANCH_SLUG}"
 # Create branch and worktree (as sibling to main repo)
 git worktree add -b "$BRANCH" "$WORKTREE_PATH"
 
-# Register work session BEFORE changing directory
-mkdir -p "$REPO_ROOT/.claude/session"
-cat > "$REPO_ROOT/.claude/session/work-goal" << EOF
-branch=$BRANCH
-worktree=$WORKTREE_PATH
-EOF
-
 # Change to worktree - ALL WORK HAPPENS HERE
 cd "$WORKTREE_PATH"
+
+# Register work session IN THE WORKTREE (supports parallel sessions)
+mkdir -p .claude/session
+cat > .claude/session/work-goal << EOF
+branch=$BRANCH
+worktree=$WORKTREE_PATH
+issue=$ISSUE_ID
+EOF
 
 # VERIFY you are in the worktree (not the main repo)
 pwd  # Should show the worktree path, NOT the main repo
