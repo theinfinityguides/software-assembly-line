@@ -65,22 +65,31 @@ Before proceeding with ANY work, you MUST:
    - If provided as argument, use it
    - If NOT provided, **ASK THE USER**: "Which Linear project should I work from?"
 
-2. **Query Linear for available issues:**
+2. **Query Linear for available issues using the Linear CLI:**
    ```bash
-   # Use Linear MCP or CLI to list issues ready for work
-   # Filter: status is "Todo" or "Backlog" or "Ready for Dev"
-   # Filter: not blocked by other incomplete issues
+   # From the repo root, run:
+   bun packages/auto/cli/linear projects ready "<PROJECT_NAME>"
    ```
 
+   This command:
+   - Finds the project by name
+   - Returns issues that are in "backlog" or "triage" status
+   - Filters OUT any issues that are blocked by incomplete issues
+   - Shows only issues that are ready to work on
+
 3. **Present the available issues to the user:**
-   - Show issue ID, title, priority, and any labels
-   - Ask: "Which issue would you like to work on?"
-   - Let the user select from the list
+
+   Show the output from the CLI and ask:
+   ```
+   Which issue would you like to work on? (enter the issue ID, e.g., INF-123)
+   ```
+
+   Use the AskUserQuestion tool to let them select.
 
 4. **Once an issue is selected, IMMEDIATELY update Linear status:**
    ```bash
-   # Using Linear MCP or CLI - set status to "In Progress"
-   linear issue update <ISSUE_ID> --status "In Progress"
+   # Set status to "In Progress"
+   bun packages/auto/cli/linear issues update --id <ISSUE_ID> --state "In Progress"
    ```
 
    This signals to the team that work has started.
