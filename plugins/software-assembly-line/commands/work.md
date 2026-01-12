@@ -21,17 +21,20 @@ Before proceeding with ANY work, you MUST:
 ## Usage
 
 ```
-/sal:work [--project-id <LINEAR_PROJECT_ID>] [--story-id <STORY_ID>] [--continue]
+/sal:work [project-name] [--issue <ISSUE_ID>] [--continue]
 ```
 
 ## Examples
 
 ```bash
-# Pick next unblocked story from project and implement
-/sal:work --project-id PROJ-123
+# Start work - will prompt for project if not specified
+/sal:work
 
-# Work on a specific story
-/sal:work --story-id STORY-456
+# Work on issues in a specific project
+/sal:work "My Project"
+
+# Work on a specific issue
+/sal:work --issue INF-123
 
 # Continue working on current story (after interruption)
 /sal:work --continue
@@ -41,31 +44,46 @@ Before proceeding with ANY work, you MUST:
 
 | Argument | Required | Description |
 |----------|----------|-------------|
-| `--project-id` | No* | Linear project to pull stories from |
-| `--story-id` | No* | Specific story to work on |
+| `project-name` | No | Linear project name (will prompt if not provided) |
+| `--issue` | No | Specific issue ID to work on |
 | `--continue` | No | Resume work on current story |
-
-*One of `--project-id` or `--story-id` required unless `--continue`.
 
 ## What This Command Does
 
-### Step 1: Select Story & Set In Progress
+### Step 1: Select Issue & Set In Progress
 
-If `--story-id` provided:
-- Fetch that specific story from Linear
+**If `--issue` provided:**
+- Use Linear MCP/CLI to fetch that specific issue
 
-If `--project-id` provided:
-- Query Linear for unblocked stories (no pending blockers)
-- Sort by priority, then by layer tag order
-- Select the first (highest priority, earliest layer)
+**If `--continue` provided:**
+- Read the session file at `.claude/session/work-goal` to get the current branch/worktree
+- Resume work in that worktree
 
-**Immediately after selecting the story, update Linear status to "In Progress":**
-```bash
-# Using Linear MCP or CLI
-linear issue update STORY-456 --status "In Progress"
-```
+**Otherwise (project name provided or prompt for it):**
 
-This signals to the team that work has started on this story.
+1. **Get the project name:**
+   - If provided as argument, use it
+   - If NOT provided, **ASK THE USER**: "Which Linear project should I work from?"
+
+2. **Query Linear for available issues:**
+   ```bash
+   # Use Linear MCP or CLI to list issues ready for work
+   # Filter: status is "Todo" or "Backlog" or "Ready for Dev"
+   # Filter: not blocked by other incomplete issues
+   ```
+
+3. **Present the available issues to the user:**
+   - Show issue ID, title, priority, and any labels
+   - Ask: "Which issue would you like to work on?"
+   - Let the user select from the list
+
+4. **Once an issue is selected, IMMEDIATELY update Linear status:**
+   ```bash
+   # Using Linear MCP or CLI - set status to "In Progress"
+   linear issue update <ISSUE_ID> --status "In Progress"
+   ```
+
+   This signals to the team that work has started.
 
 ### Step 2: Create Worktree & Session
 
