@@ -8,6 +8,16 @@ argument-hint: "[--project-id <ID>] [--story-id <ID>] [--continue]"
 
 Pick the next unblocked story from Linear and implement it using the Ralph Wiggum loop.
 
+## ⚠️ MANDATORY REQUIREMENTS
+
+Before proceeding with ANY work, you MUST:
+
+1. **Set Linear status to "In Progress"** - Do this IMMEDIATELY after selecting the story
+2. **Create a git WORKTREE** - NOT a branch. Use `git worktree add`, NOT `git checkout -b`
+3. **Work ONLY in the worktree directory** - Never work in the main repo directory
+
+**FAILURE TO FOLLOW THESE REQUIREMENTS IS UNACCEPTABLE.**
+
 ## Usage
 
 ```
@@ -39,7 +49,7 @@ Pick the next unblocked story from Linear and implement it using the Ralph Wiggu
 
 ## What This Command Does
 
-### Step 1: Select Story
+### Step 1: Select Story & Set In Progress
 
 If `--story-id` provided:
 - Fetch that specific story from Linear
@@ -49,7 +59,21 @@ If `--project-id` provided:
 - Sort by priority, then by layer tag order
 - Select the first (highest priority, earliest layer)
 
+**Immediately after selecting the story, update Linear status to "In Progress":**
+```bash
+# Using Linear MCP or CLI
+linear issue update STORY-456 --status "In Progress"
+```
+
+This signals to the team that work has started on this story.
+
 ### Step 2: Create Worktree & Session
+
+## ⚠️ CRITICAL: YOU MUST USE A WORKTREE
+
+**DO NOT just create a branch with `git checkout -b`. You MUST create a worktree.**
+
+This is NON-NEGOTIABLE. Every time. No exceptions.
 
 **IMPORTANT**: All work must be done in a git worktree, not the main working directory.
 
@@ -73,7 +97,13 @@ EOF
 
 # Change to worktree - ALL WORK HAPPENS HERE
 cd "$WORKTREE_PATH"
+
+# VERIFY you are in the worktree (not the main repo)
+pwd  # Should show the worktree path, NOT the main repo
+git worktree list  # Confirm worktree exists
 ```
+
+**VERIFY BEFORE PROCEEDING**: Run `pwd` and confirm you are in the worktree directory (the sibling directory), NOT the main repo.
 
 The worktree is created as a sibling directory:
 ```
