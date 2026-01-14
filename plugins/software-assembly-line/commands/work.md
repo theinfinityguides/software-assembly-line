@@ -194,7 +194,7 @@ Verify:
 ### Step 6: Create Pull Request
 
 ```bash
-gh pr create --title "[STORY-456] Create subscriptions table migration" --body "..." --draft
+gh pr create --title "[STORY-456] Create subscriptions table migration" --body "..."
 ```
 
 ### Step 7: Update Linear
